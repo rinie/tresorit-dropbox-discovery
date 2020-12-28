@@ -144,7 +144,7 @@ fn create_udp_stream(
         SocketAddr::V6(a) => UdpBuilder::new_v6()?.only_v6(only_v6)?.bind(a),
     }?;
     Ok(UdpFramed::new(
-        UdpSocket::from_std(socket, &Handle::current())?,
+        UdpSocket::from_std(socket, &Handle::default())?,
         BeaconCodec,
     ).filter_map(|(item, addr)| {
         item.map(|packet| Event::HostFound(HostInfo::from_item(&packet, addr)))
